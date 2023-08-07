@@ -1,0 +1,35 @@
+npm run build
+npm -g serve
+
+
+
+To generate a self-signed SSL certificate for HTTPS, you can follow these general steps:
+
+1. Open a command line or terminal window.
+2. Generate a private key:
+   ```
+   openssl genrsa -out private.key 2048
+   ```
+3. Generate a certificate signing request (CSR):
+   ```
+   openssl req -new -key private.key -out csr.pem
+   ```
+   During this step, you will be prompted to enter some information like the common name (e.g., your domain name) and other details.
+4. Generate a self-signed certificate using the private key and CSR:
+   ```
+   openssl x509 -req -days 365 -in csr.pem -signkey private.key -out certificate.pem
+   ```
+
+This will generate a self-signed SSL certificate (`certificate.pem`) and a private key (`private.key`). You can then use these files in your HTTPS server configuration.
+
+Note: Self-signed certificates are not trusted by default by web browsers, so you will likely see a security warning when accessing a website using a self-signed certificate.
+
+For more detailed instructions and variations, you can refer to the following resources:
+
+- OpenSSL Wiki: https://wiki.openssl.org/index.php/Command_Line_Utilities
+- OpenSSL Cookbook: https://www.feistyduck.com/library/openssl-cookbook/online/ch-openssl.html
+
+Please note that the above steps are for generating a self-signed certificate using OpenSSL, which is a widely used tool.
+
+
+serve -s build --ssl-cert certificate.crt --ssl-key private.key
